@@ -9,13 +9,13 @@ all:
     	echo "Il faut le lire, merci!" ; exit 1 ; \
 	fi
 	@echo "\n"
-	@echo 'Compilation du jeu...'
+	@echo 'Compilation...'
 	@mkdir -p .o
 	@gcc -c main.c -o .o/main.o
 	@gcc -o PROJET .o/main.o
 	@rm -r .o
-	@echo 'Compilation terminée, bon jeu !'
-	@echo ' & Thomas LACAZE'
+	@echo 'Compilation terminée !'
+	@echo 'Jean-Michel REMEUR & Thomas LACAZE'
 	@./PROJET
 
 clean:
