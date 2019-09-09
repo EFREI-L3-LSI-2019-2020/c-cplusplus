@@ -3,7 +3,9 @@
 int main()
 {
 	char *str, *pch;
-	get_text(&str);
+	size_t size = 0;
+    printf("Donnez un titre à votre message: ");
+    getline(&str, &size, stdin);
 	//char str[1000] = "Une  personne personne m'a  dit  le  mot  bonjour.  J'ai  répondu  bonjour  à  cette personne! Bonjour? Quel joli mot!";
 	Present dico[100];
 
@@ -38,7 +40,6 @@ int main()
 
 	return 0;
 }
-
 
 void get_text(char *str)
 {
