@@ -1,6 +1,6 @@
 all:
 	@clear
-	@cat README
+	@cat README.md
 	@echo "\n"
 	@echo "\n"
 	@echo "Avez-vous pris conscience du README? O/N"
