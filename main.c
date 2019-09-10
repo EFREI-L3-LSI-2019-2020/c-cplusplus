@@ -11,8 +11,9 @@ int main()
 	if (*str && str[ln] == '\n')
 		str[ln] = '\0';
 
-	Q_a_b(copystr(str));
-	Q_c(copystr(str));
+	PresentList list = Q_a_b(copystr(str));
+	Q_c(copystr(str), "le", list);
+	//Q_d(list);
 
 	//char str[1000] = "Une personne m'a dit le mot bonjour. J'ai répondu bonjour à cette personne! Bonjour? Quel joli mot!";
 	return 0;
@@ -28,7 +29,7 @@ void get_text(char *str)
 {
 	size_t size = 0;
 	printf("Donnez un titre à votre message: ");
-	getline(&str, &size, stdin);	
+	getline(&str, &size, stdin);
 }
 
 void remove_special_char_tolower(char str[])
@@ -44,7 +45,7 @@ void remove_special_char_tolower(char str[])
 	}
 }
 
-void affichage(Present freq[100], int ite)
+void affichage(Present *freq, int ite)
 {
 	for (int i = 0; i < ite; i++)
 	{
@@ -52,13 +53,13 @@ void affichage(Present freq[100], int ite)
 	}
 }
 
-void Q_a_b(char str[])
+PresentList Q_a_b(char str[])
 {
 	printf("************************\n");
 	printf("*         Q_a_b        *\n");
 	printf("************************\n");
 
-	Present freq[100];
+	Present *freq = malloc(sizeof(Present));
 	remove_special_char_tolower(str);
 	char *pch = strtok(str, " ");
 	int ite = 0;
@@ -76,50 +77,109 @@ void Q_a_b(char str[])
 
 		if (present == 0)
 		{
+			freq = realloc(freq, (ite + 1) + sizeof(Present));
 			freq[ite] = (Present){pch, 1};
 			ite++;
 		}
 
 		pch = strtok(NULL, " ");
 	}
-	free(pch);
+	//free(pch);
 	free(str);
 
 	affichage(freq, ite);
+
+	return (PresentList) {freq, ite};
 }
 
-void Q_c(char str[])
+void Q_c(char str[], char search[], PresentList list)
 {
 	printf("************************\n");
 	printf("*          Q_c         *\n");
 	printf("************************\n");
 
-	Present freq[100];
+	printf("Start : %lu\n", strlen(str));
+
+	Present *dico = malloc(sizeof(Present));
 	remove_special_char_tolower(str);
 	char *pch = strtok(str, " ");
 	int ite = 0;
-	while (pch != NULL)
+
+	for (int i = 0; i < list.length; i++)
 	{
-		int present = 0;
-		for (int i = 0; i < ite; i++)
+		int new = 0;
+		if (list.present[i].count > 1)
 		{
-			if (strcmp(freq[i].word, pch) == 0)
+			for (int j = 0; j < ite; j++)
 			{
-				freq[i].count++;
-				present = 1;
+				if (strcmp(dico[j].word, list.present[i].word) == 0)
+				{
+					new = 1;
+				}
+			}
+
+			if (new == 0)
+			{
+				dico = realloc(dico, (ite + 1) + sizeof(list.present[i]));
+				dico[ite] = list.present[i];
+				ite++;
 			}
 		}
+	}
 
-		if (present == 0)
+	char *result = malloc(sizeof(char));
+
+	while (pch != NULL)
+	{
+		int size = strlen(pch);
+		char temp[size];
+		strcpy(temp, pch);
+
+		for (int i = 0; i < ite; i++)
 		{
-			freq[ite] = (Present){pch, 1};
-			ite++;
+			if (strcmp(pch, dico[i].word) == 0)
+			{
+				for (int j = 0; j < size; j++)
+				{
+					temp[j] = '#';
+				}
+			}
 		}
+		strcat(temp, " ");
+		strcat(result, temp);
 
 		pch = strtok(NULL, " ");
 	}
 	free(pch);
 	free(str);
 
-	affichage(freq, ite);
+	affichage(dico, ite);
+	printf("%s\n", result);
+
+	printf("End : %lu\n", strlen(result));
+
+	free(result);
+}
+
+void Q_d(PresentList list)
+{
+	printf("************************\n");
+	printf("*          Q_d         *\n");
+	printf("************************\n");
+
+	affichage(list.present, list.length);
+
+	/*int total = 0;
+
+	for(int i = 0; i < list.length; i++)
+	{
+		total += list.present[i].count;
+	}
+
+	int freq[list.length];
+
+	for(int i = 0; i < list.length; i++)
+	{
+		printf("%s : %d : %d\n",list.present[i].word, list.present[i].count, total);
+	}*/
 }

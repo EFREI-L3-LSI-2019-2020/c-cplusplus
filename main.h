@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#define NB_CHAR 100
 
 typedef struct 
 {
@@ -13,11 +12,18 @@ typedef struct
 	unsigned int count;
 } Present;
 
-void get_text(char *str);
-void remove_special_char_tolower(char str[]);
-void affichage(Present freq[100], int ite);
-char *copystr(char str[]);
-void Q_a_b(char str[]);
-void Q_c(char str[]);
+typedef struct
+{
+	Present *present;
+	unsigned int length;
+} PresentList;
+
+void get_text(char *);
+void remove_special_char_tolower(char[]);
+void affichage(Present[], int);
+char *copystr(char[]);
+PresentList Q_a_b(char[]);
+void Q_c(char[], char[], PresentList);
+void Q_d(PresentList);
 
 #endif
