@@ -15,5 +15,9 @@ typedef struct
 
 void get_text(char *str);
 void remove_special_char_tolower(char str[]);
+void affichage(Present freq[100], int ite);
+char *copystr(char str[]);
+void Q_a_b(char str[]);
+void Q_c(char str[]);
 
 #endif
