@@ -49,7 +49,7 @@ void affichage(Present *freq, int ite)
 {
 	for (int i = 0; i < ite; i++)
 	{
-		printf("%s:%d\n", freq[i].word, freq[i].count);
+		printf("%s:%d\n\n", freq[i].word, freq[i].count);
 	}
 }
 
@@ -89,7 +89,7 @@ PresentList Q_a_b(char str[])
 
 	affichage(freq, ite);
 
-	return (PresentList) {freq, ite};
+	return (PresentList){freq, ite};
 }
 
 void Q_c(char str[], char search[], PresentList list)
@@ -153,10 +153,10 @@ void Q_c(char str[], char search[], PresentList list)
 	free(pch);
 	free(str);
 
-	affichage(dico, ite);
+	//affichage(dico, ite);
 	printf("%s\n", result);
 
-	printf("End : %lu\n", strlen(result));
+	//printf("End : %lu\n", strlen(result));
 
 	free(result);
 }
