@@ -89,7 +89,7 @@ void Q_c(char str[], char search[], PresentList list)
 		}
 	}
 
-	char *result = (char *) malloc(sizeof(char));
+	char *result = (char *)malloc(sizeof(char));
 	char *pch = strtok(str, " ");
 
 	while (pch != NULL)
@@ -109,7 +109,7 @@ void Q_c(char str[], char search[], PresentList list)
 			}
 		}
 		strcat(temp, " ");
-		result = (char *) realloc(result, (strlen(result) + strlen(temp)) * sizeof(char));
+		result = (char *)realloc(result, (strlen(result) + strlen(temp)) * sizeof(char));
 		strcat(result, temp);
 
 		pch = strtok(NULL, " ");
@@ -137,25 +137,12 @@ void Q_d(PresentList list)
 		total += list.present[i].count;
 	}
 
-	int freq[list.length];
-
 	for (int i = 0; i < list.length; i++)
 	{
-		printf("%d / %d\n", list.present[i].count, total);
-		float pour = (int)list.present[i].count / (int)total;
-		printf("%s : %.2f\n", list.present[i].word, pour);
+		double freq = (double)list.present[i].count / (double)total;
+		printf("%s : %lf\n", list.present[i].word,freq);
 	}
-
-	int a, y;
-    float b, c, d;
-    a = 750;
-	y = 350;
-    b = a / 350.0f;
-    c = 750;
-    d = c / y;
-    printf("%.2f %.2f\n", b, d);
 }
-
 char *copystr(char str[])
 {
 	char *origin = (char *)calloc(strlen(str), sizeof(char));
