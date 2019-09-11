@@ -33,6 +33,7 @@ PresentList* Q_a_b(char str[])
 	Present *freq = (Present *)calloc(0, sizeof(Present));
 	char *pch = strtok(str, " ");
 	int ite = 0;
+	
 	while (pch != NULL)
 	{
 		int present = 1;
@@ -50,6 +51,7 @@ PresentList* Q_a_b(char str[])
 			char *word = (char *)calloc(strlen(pch), sizeof(char));
 			strcpy(word, pch);
 
+			// memeory leaks
 			freq = (Present *)realloc(freq, (ite + 1) * sizeof(Present));
 			freq[ite] = (Present){word, 1, 0};
 			ite++;
