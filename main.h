@@ -10,6 +10,7 @@ typedef struct
 {
 	char *word;
 	unsigned int count;
+	double freq;
 } Present;
 
 typedef struct

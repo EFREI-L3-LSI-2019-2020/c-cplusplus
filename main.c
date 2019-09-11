@@ -47,7 +47,7 @@ PresentList Q_a_b(char str[])
 			strcpy(word, pch);
 
 			freq = (Present *) realloc(freq, (ite + 1) * sizeof(Present));
-			freq[ite] = (Present){word, 1};
+			freq[ite] = (Present){word, 1, 0};
 			ite++;
 		}
 
@@ -134,7 +134,6 @@ void Q_d(PresentList list)
 	printf("************************\n");
 
 	int total = 0;
-	double *frequences = (double *) calloc(0, sizeof(double));
 
 	for (int i = 0; i < list.length; i++)
 	{
@@ -144,14 +143,8 @@ void Q_d(PresentList list)
 	for (int i = 0; i < list.length; i++)
 	{
 		double freq = (double) list.present[i].count / (double) total;
-		frequences = (double *) realloc(frequences, (i + 1) * sizeof(double));
-		frequences[i] = freq;
-		//printf("%s : %lf\n", list.present[i].word,freq);
-	}
-
-	for (int i = 0; i < list.length; i++)
-	{
-		printf("%s : %lf\n", list.present[i].word, frequences[i]);
+		list.present[i].freq = freq;
+		printf("%s : %lf\n", list.present[i].word, list.present[i].freq);
 	}
 }
 char *copystr(char str[])
