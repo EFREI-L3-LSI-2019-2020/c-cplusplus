@@ -2,15 +2,15 @@
 
 int main()
 {
-	/* 	char *str = NULL;
+	char *str = NULL;
 	size_t size = 0;
 	printf("Donnez un titre à votre message: ");
-	getline(&str, &size, stdin); */
-	char str[1000] = "le magasin ouvrira le 12 juin et le 14 juin.";
+	getline(&str, &size, stdin);
+	//char str[1000] = "le magasin ouvrira le 12 juin et le 14 juin.";
 
-	/*  	size_t ln = strlen(str) - 1;
+	size_t ln = strlen(str) - 1;
 	if (*str && str[ln] == '\n')
-		str[ln] = '\0'; */
+		str[ln] = '\0';
 
 	remove_special_char_tolower(str);
 	PresentList *list = Q_a_b(copystr(str));
@@ -19,6 +19,7 @@ int main()
 	Q_e(list);
 
 	free(list);
+	free(str);
 
 	return 0;
 }
@@ -214,7 +215,7 @@ void triBulle(PresentList *list)
 	{
 		for (int i = 0; i < list->length - 1; i++)
 		{
-			if (list->present[i].count > list->present[i + 1].count)
+			if (list->present[i].count < list->present[i + 1].count)
 			{
 				Present present = list->present[i];
 				list->present[i] = list->present[i + 1];
