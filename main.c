@@ -108,7 +108,7 @@ void Q_c(char str[], char search[], PresentList *list)
 	while (pch != NULL)
 	{
 		int size = strlen(pch);
-		char temp[size];
+		char temp[size + 1];
 		strcpy(temp, pch);
 
 		for (int i = 0; i < ite; i++)
@@ -122,7 +122,7 @@ void Q_c(char str[], char search[], PresentList *list)
 			}
 		}
 		strcat(temp, " ");
-		result = (char *)realloc(result, (strlen(result) + strlen(temp)) * sizeof(char));
+		result = (char *)realloc(result, (strlen(result) + strlen(temp) + 1) * sizeof(char));
 		strcat(result, temp);
 
 		pch = strtok(NULL, " ");
