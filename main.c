@@ -173,12 +173,6 @@ char *copystr(char str[])
 	strcpy(origin, str);
 	return origin;
 }
-void get_text(char *str)
-{
-	size_t size = 0;
-	printf("Donnez un titre à votre message: ");
-	getline(&str, &size, stdin);
-}
 
 void remove_special_char_tolower(char str[])
 {
@@ -211,7 +205,7 @@ void affichageList(PresentList *list)
 
 void triBulle(PresentList *list)
 {
-	for (int j = 1; j <= list->length; j++) // pour faire l'operation N fois
+	for (int j = 1; j <= list->length; j++)
 	{
 		for (int i = 0; i < list->length - 1; i++)
 		{

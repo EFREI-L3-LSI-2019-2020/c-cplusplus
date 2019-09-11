@@ -19,15 +19,15 @@ typedef struct
 	unsigned int length;
 } PresentList;
 
-void get_text(char *);
-void remove_special_char_tolower(char[]);
-void affichage(Present[], int);
-char *copystr(char[]);
 PresentList *Q_a_b(char[]);
 void Q_c(char[], char[], PresentList *);
 void Q_d(PresentList *);
 void Q_e(PresentList *);
-void triBulle(PresentList *);
+
+char *copystr(char[]);
+void remove_special_char_tolower(char[]);
+void affichage(Present[], int);
 void affichageList(PresentList *);
+void triBulle(PresentList *);
 
 #endif
