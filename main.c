@@ -12,7 +12,7 @@ int main()
 	if (*str && str[ln] == '\n')
 		str[ln] = '\0'; */
 
-	remove_special_char_tolower(str);
+	//remove_special_char_tolower(str);
 	PresentList list = Q_a_b(copystr(str));
 	Q_c(copystr(str), "le", list);
 	Q_d(list);
@@ -131,6 +131,7 @@ void Q_d(PresentList list)
 	printf("************************\n");
 
 	int total = 0;
+	double *frequences = calloc(0, sizeof(double));
 
 	for (int i = 0; i < list.length; i++)
 	{
@@ -140,7 +141,14 @@ void Q_d(PresentList list)
 	for (int i = 0; i < list.length; i++)
 	{
 		double freq = (double)list.present[i].count / (double)total;
-		printf("%s : %lf\n", list.present[i].word,freq);
+		frequences = realloc(frequences, (i + 1) * sizeof(double));
+		frequences[i] = freq;
+		//printf("%s : %lf\n", list.present[i].word,freq);
+	}
+
+	for (int i = 0; i < list.length; i++)
+	{
+		printf("%s : %lf\n", list.present[i].word, frequences[i]);
 	}
 }
 char *copystr(char str[])
