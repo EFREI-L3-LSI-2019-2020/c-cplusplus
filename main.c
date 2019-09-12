@@ -77,7 +77,7 @@ void Q_c(char str[], char search[], PresentList *list)
 	printf("*          Q_c         *\n");
 	printf("************************\n");
 
-	Present *dico = NULL;
+	Present *dico = (Present *)calloc(1, sizeof(char));
 	int ite = 0;
 
 	for (int i = 0; i < list->length; i++)
