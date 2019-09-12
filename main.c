@@ -107,7 +107,7 @@ void Q_c(char str[], char search[], PresentList *list)
 
 	while (pch != NULL)
 	{
-		int size = strlen(pch);
+        unsigned long size = strlen(pch);
 		char temp[size + 1];
 		strcpy(temp, pch);
 
