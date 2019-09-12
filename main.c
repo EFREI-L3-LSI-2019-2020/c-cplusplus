@@ -65,6 +65,7 @@ PresentList* Q_a_b(char str[])
 	PresentList *list = (PresentList*) calloc(1, sizeof(PresentList));
 	list->present = freq;
 	list->length = ite;
+	list->numberwords = 0;
 
 	return list;
 }
@@ -147,16 +148,14 @@ void Q_d(PresentList *list)
 	printf("*          Q_d         *\n");
 	printf("************************\n");
 
-	int total = 0;
-
 	for (int i = 0; i < list->length; i++)
 	{
-		total += list->present[i].count;
+		list->numberwords += list->present[i].count;
 	}
 
 	for (int i = 0; i < list->length; i++)
 	{
-		double freq = (double) list->present[i].count / (double) total;
+		double freq = (double) list->present[i].count / (double) list->numberwords;
 		list->present[i].freq = freq;
 	}
 

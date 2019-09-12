@@ -16,7 +16,8 @@ typedef struct
 typedef struct
 {
 	Present *present;
-	unsigned int length;
+	unsigned int length; //sans doublons
+	unsigned int numberwords; //avec
 } PresentList;
 
 PresentList *Q_a_b(char[]);
