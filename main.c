@@ -18,7 +18,7 @@ int main()
 	Q_d(list);
 	Q_e(list);
 
-	free(list);
+	freePresentList(list);
 	free(str);
 
 	return 0;
@@ -132,7 +132,7 @@ void Q_c(char str[], char search[], PresentList *list)
 	printf("%s\n", result);
 
 	free(result);
-	free(dico);
+	freePresentArray(dico, ite);
 	free(pch);
 	free(str);
 }
@@ -220,4 +220,20 @@ void triBulle(PresentList *list)
 		}
 	}
 	affichageList(list);
+}
+
+void freePresentList(PresentList *list)
+{
+	freePresentArray(list->present, list->length);
+	free(list);
+}
+
+void freePresentArray(Present *present, int length)
+{
+	for(int i = 0; i < length; i++)
+	{
+		free(present[i].word);
+	}
+
+	free(present);
 }

@@ -30,4 +30,7 @@ void affichage(Present[], int);
 void affichageList(PresentList *);
 void triBulle(PresentList *);
 
+void freePresentList(PresentList *);
+void freePresentArray(Present *, int);
+
 #endif
