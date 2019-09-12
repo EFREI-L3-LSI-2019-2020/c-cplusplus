@@ -40,7 +40,7 @@ windows:
 	@rm -r .o
 	@echo 'Compilation terminée !'
 	@echo 'Jean-Michel REMEUR & Thomas LACAZE'
-	@PROJET.exe
+	@./PROJET.exe
 
 mac: 
 	@clear
