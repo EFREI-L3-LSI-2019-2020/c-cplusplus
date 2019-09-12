@@ -6,7 +6,6 @@ int main()
 	size_t size = 0;
 	printf("Donnez un titre à votre message: ");
 	getline(&str, &size, stdin);
-	//char str[1000] = "le magasin ouvrira le 12 juin et le 14 juin.";
 
 	size_t ln = strlen(str) - 1;
 	if (*str && str[ln] == '\n')
@@ -51,7 +50,6 @@ PresentList* Q_a_b(char str[])
 			char *word = (char *)calloc(strlen(pch), sizeof(char));
 			strcpy(word, pch);
 
-			// memeory leaks
 			freq = (Present *)realloc(freq, (ite + 1) * sizeof(Present));
 			freq[ite] = (Present){word, 1, 0};
 			ite++;
@@ -96,7 +94,13 @@ void Q_c(char str[], char search[], PresentList *list)
 			if (new == 0)
 			{
 				dico = (Present *)realloc(dico, (ite + 1) * sizeof(Present));
-				dico[ite] = list->present[i];
+
+				Present present = list->present[i];
+				char *word = (char *) calloc(strlen(present.word), sizeof(char));
+				strcpy(word, present.word);
+				present.word = word;
+
+				dico[ite] = present;
 				ite++;
 			}
 		}
@@ -108,7 +112,7 @@ void Q_c(char str[], char search[], PresentList *list)
 	while (pch != NULL)
 	{
         unsigned long size = strlen(pch);
-		char temp[size + 1];
+		char temp[size - 1];
 		strcpy(temp, pch);
 
 		for (int i = 0; i < ite; i++)
@@ -157,7 +161,6 @@ void Q_d(PresentList *list)
 	}
 
 	affichageList(list);
-	//triBulle(list);
 }
 
 void Q_e(PresentList *list)
@@ -182,7 +185,7 @@ void remove_special_char_tolower(char str[])
 	{
 		if ((str[i] >= 'A' && str[i] <= 'Z'))
 			str[i] = str[i] + 32;
-		else if (str[i] == '.' || str[i] == '!' || str[i] == '?')
+		else if (str[i] == '.' || str[i] == '!' || str[i] == '?' || str[i] == '-' || str[i] == ',')
 		{
 			str[i] = ' ';
 		}
@@ -193,7 +196,7 @@ void affichage(Present *freq, int ite)
 {
 	for (int i = 0; i < ite; i++)
 	{
-		printf("%s:%d\n", freq[i].word, freq[i].count);
+		printf("%s\t:%d\n", freq[i].word, freq[i].count);
 	}
 }
 
