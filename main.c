@@ -1,5 +1,9 @@
 #include "main.h"
 
+/* TODO
+	- Better secure entry
+ */
+
 int main()
 {
 	char *str = NULL;
@@ -12,35 +16,35 @@ int main()
 		str[ln] = '\0';
 
 	remove_special_char_tolower(str);
-	PresentList *list = Q_a_b(copystr(str));
+	WordList *list = Q_a_b(copystr(str));
 	Q_c(copystr(str), "le", list);
 	Q_d(list);
 	Q_e(list);
 
-	freePresentList(list);
+	freeWordList(list);
 	free(str);
 
 	return 0;
 }
 
-PresentList* Q_a_b(char str[])
+WordList *Q_a_b(char str[])
 {
 	printf("************************\n");
 	printf("*         Q_a_b        *\n");
 	printf("************************\n");
 
-	Present *freq = (Present *)calloc(0, sizeof(Present));
+	Word *words = (Word *)calloc(0, sizeof(Word));
 	char *pch = strtok(str, " ");
 	int ite = 0;
-	
+
 	while (pch != NULL)
 	{
 		int present = 1;
 		for (int i = 0; i < ite; i++)
 		{
-			if (strcmp(freq[i].word, pch) == 0)
+			if (strcmp(words[i].str, pch) == 0)
 			{
-				freq[i].count++;
+				words[i].count++;
 				present = 0;
 			}
 		}
@@ -50,8 +54,8 @@ PresentList* Q_a_b(char str[])
 			char *word = (char *)calloc(strlen(pch), sizeof(char));
 			strcpy(word, pch);
 
-			freq = (Present *)realloc(freq, (ite + 1) * sizeof(Present));
-			freq[ite] = (Present){word, 1, 0};
+			words = (Word *)realloc(words, (ite + 1) * sizeof(Word));
+			words[ite] = (Word){word, 1, 0};
 			ite++;
 		}
 
@@ -60,33 +64,33 @@ PresentList* Q_a_b(char str[])
 	free(pch);
 	free(str);
 
-	affichage(freq, ite);
+	affichage(words, ite);
 
-	PresentList *list = (PresentList*) calloc(1, sizeof(PresentList));
-	list->present = freq;
+	WordList *list = (WordList *)calloc(1, sizeof(WordList));
+	list->words = words;
 	list->length = ite;
-	list->numberwords = 0;
+	list->wordLength = 0;
 
 	return list;
 }
 
-void Q_c(char str[], char search[], PresentList *list)
+void Q_c(char str[], char search[], WordList *list)
 {
 	printf("************************\n");
 	printf("*          Q_c         *\n");
 	printf("************************\n");
 
-	Present *dico = (Present *)calloc(1, sizeof(char));
+	Word *dico = (Word *)calloc(1, sizeof(char));
 	int ite = 0;
 
 	for (int i = 0; i < list->length; i++)
 	{
 		int new = 0;
-		if (list->present[i].count > 1)
+		if (list->words[i].count > 1)
 		{
 			for (int j = 0; j < ite; j++)
 			{
-				if (strcmp(dico[j].word, list->present[i].word) == 0)
+				if (strcmp(dico[j].str, list->words[i].str) == 0)
 				{
 					new = 1;
 				}
@@ -94,12 +98,12 @@ void Q_c(char str[], char search[], PresentList *list)
 
 			if (new == 0)
 			{
-				dico = (Present *)realloc(dico, (ite + 1) * sizeof(Present));
+				dico = (Word *)realloc(dico, (ite + 1) * sizeof(Word));
 
-				Present present = list->present[i];
-				char *word = (char *) calloc(strlen(present.word), sizeof(char));
-				strcpy(word, present.word);
-				present.word = word;
+				Word present = list->words[i];
+				char *string = (char *)calloc(strlen(present.str), sizeof(char));
+				strcpy(string, present.str);
+				present.str = string;
 
 				dico[ite] = present;
 				ite++;
@@ -112,13 +116,13 @@ void Q_c(char str[], char search[], PresentList *list)
 
 	while (pch != NULL)
 	{
-        unsigned long size = strlen(pch);
+		unsigned long size = strlen(pch);
 		char temp[size - 1];
 		strcpy(temp, pch);
 
 		for (int i = 0; i < ite; i++)
 		{
-			if (strcmp(pch, dico[i].word) == 0)
+			if (strcmp(pch, dico[i].str) == 0)
 			{
 				for (int j = 0; j < size; j++)
 				{
@@ -137,12 +141,12 @@ void Q_c(char str[], char search[], PresentList *list)
 	printf("%s\n", result);
 
 	free(result);
-	freePresentArray(dico, ite);
+	freeWordArray(dico, ite);
 	free(pch);
 	free(str);
 }
 
-void Q_d(PresentList *list)
+void Q_d(WordList *list)
 {
 	printf("************************\n");
 	printf("*          Q_d         *\n");
@@ -150,19 +154,19 @@ void Q_d(PresentList *list)
 
 	for (int i = 0; i < list->length; i++)
 	{
-		list->numberwords += list->present[i].count;
+		list->wordLength += list->words[i].count;
 	}
 
 	for (int i = 0; i < list->length; i++)
 	{
-		double freq = (double) list->present[i].count / (double) list->numberwords;
-		list->present[i].freq = freq;
+		double freq = (double)list->words[i].count / (double)list->wordLength;
+		list->words[i].freq = freq;
 	}
 
 	affichageList(list);
 }
 
-void Q_e(PresentList *list)
+void Q_e(WordList *list)
 {
 	printf("************************\n");
 	printf("*          Q_e         *\n");
@@ -180,6 +184,7 @@ char *copystr(char str[])
 
 void remove_special_char_tolower(char str[])
 {
+	//Dire quelle est secure
 	for (int i = 0; str[i]; i++)
 	{
 		if ((str[i] >= 'A' && str[i] <= 'Z'))
@@ -191,51 +196,51 @@ void remove_special_char_tolower(char str[])
 	}
 }
 
-void affichage(Present *freq, int ite)
+void affichage(Word *words, int ite)
 {
 	for (int i = 0; i < ite; i++)
 	{
-		printf("%s\t:%d\n", freq[i].word, freq[i].count);
+		printf("%s\t:%d\n", words[i].str, words[i].count);
 	}
 }
 
-void affichageList(PresentList *list)
+void affichageList(WordList *list)
 {
 	for (int i = 0; i < list->length; i++)
 	{
-		printf("%s : %lf\n", list->present[i].word, list->present[i].freq);
+		printf("%s : %lf\n", list->words[i].str, list->words[i].freq);
 	}
 }
 
-void triBulle(PresentList *list)
+void triBulle(WordList *list)
 {
 	for (int j = 1; j <= list->length; j++)
 	{
 		for (int i = 0; i < list->length - 1; i++)
 		{
-			if (list->present[i].count < list->present[i + 1].count)
+			if (list->words[i].count < list->words[i + 1].count)
 			{
-				Present present = list->present[i];
-				list->present[i] = list->present[i + 1];
-				list->present[i + 1] = present;
+				Word word = list->words[i];
+				list->words[i] = list->words[i + 1];
+				list->words[i + 1] = word;
 			}
 		}
 	}
 	affichageList(list);
 }
 
-void freePresentList(PresentList *list)
+void freeWordList(WordList *list)
 {
-	freePresentArray(list->present, list->length);
+	freeWordArray(list->words, list->length);
 	free(list);
 }
 
-void freePresentArray(Present *present, int length)
+void freeWordArray(Word *word, int length)
 {
-	for(int i = 0; i < length; i++)
+	for (int i = 0; i < length; i++)
 	{
-		free(present[i].word);
+		free(word[i].str);
 	}
 
-	free(present);
+	free(word);
 }

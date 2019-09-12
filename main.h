@@ -8,30 +8,30 @@
 
 typedef struct 
 {
-	char *word;
+	char *str;
 	unsigned int count;
 	double freq;
-} Present;
+} Word;
 
 typedef struct
 {
-	Present *present;
+	Word *words;
 	unsigned int length; //sans doublons
-	unsigned int numberwords; //avec
-} PresentList;
+	unsigned int wordLength; //avec
+} WordList;
 
-PresentList *Q_a_b(char[]);
-void Q_c(char[], char[], PresentList *);
-void Q_d(PresentList *);
-void Q_e(PresentList *);
+WordList *Q_a_b(char[]);
+void Q_c(char[], char[], WordList *);
+void Q_d(WordList *);
+void Q_e(WordList *);
 
 char *copystr(char[]);
 void remove_special_char_tolower(char[]);
-void affichage(Present[], int);
-void affichageList(PresentList *);
-void triBulle(PresentList *);
+void affichage(Word[], int);
+void affichageList(WordList *);
+void triBulle(WordList *);
 
-void freePresentList(PresentList *);
-void freePresentArray(Present *, int);
+void freeWordList(WordList *);
+void freeWordArray(Word *, int);
 
 #endif
