@@ -6,47 +6,98 @@
 
 int main()
 {
+	bool select = true;
+	unsigned int mode;
+
+	while(select)
+	{
+		printf("Selectionnez un mode : \n");
+		printf("1) Lire entrée clavier\n");
+		printf("2) Lire fichier \"file.txt\"\n");
+
+		fflush(stdin);
+
+		if(scanf("%d", &mode) == 1)
+		{
+			switch (mode)
+			{
+				case 1:
+					readInput();
+					select = false;
+					break;
+				case 2:
+					readFile();
+					select = false;
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	printf("\nEnd of program...\n");
+
+	return 0;
+}
+
+void readInput()
+{
+	char c;
+	do {
+        c = getchar();
+    } while (c != '\n' && c != EOF);
+
 	char *str = NULL;
 	size_t size = 0;
-	/*printf("Donnez un titre à votre message: ");
-	getline(&str, &size, stdin);*/
+	printf("\nEntrez votre message : ");
+	getline(&str, &size, stdin);
+
+	process(str);
+
+	free(str);
+}
+
+void readFile()
+{
+	char *str = NULL;
+	size_t size = 0;
 
 	FILE *file = fopen("file.txt", "r");
 	
 	if(file == NULL)
 	{
 		printf("Error when reading the file \"file.txt\"");
-		return 0;
+		return;
 	}
 
-	size_t read = getline(&str, &size, file);
-
-	if(read == -1)
+	while(getline(&str, &size, file) != -1)
 	{
-		printf("Error when reading the first line !\n");
-		return 0;
+		process(str);
 	}
 
+	free(file);
+	free(str);
+}
+
+void process(char *str)
+{
 	size_t ln = strlen(str) - 1;
 	if (*str && str[ln] == '\n')
 		str[ln] = '\0';
 
 	remove_special_char_tolower(str);
 	WordList *list = Q_a_b(copystr(str));
-	Q_c(copystr(str), "le", list);
+	Q_c(copystr(str), list);
 	Q_d(list);
 	Q_e(list);
 
 	freeWordList(list);
-	free(str);
-
-	return 0;
 }
 
 WordList *Q_a_b(char str[])
 {
 	printf("************************\n");
-	printf("*         Q_a_b        *\n");
+	printf("*     Question_a_b     *\n");
 	printf("************************\n");
 
 	Word *words = (Word *)calloc(0, sizeof(Word));
@@ -80,7 +131,8 @@ WordList *Q_a_b(char str[])
 	free(pch);
 	free(str);
 
-	affichage(words, ite);
+	printf("Affichage des mots avec leur nombre d'ocurrence :\n");
+	display(words, ite);
 
 	WordList *list = (WordList *)calloc(1, sizeof(WordList));
 	list->words = words;
@@ -90,13 +142,13 @@ WordList *Q_a_b(char str[])
 	return list;
 }
 
-void Q_c(char str[], char search[], WordList *list)
+void Q_c(char str[], WordList *list)
 {
 	printf("************************\n");
-	printf("*          Q_c         *\n");
+	printf("*      Question_c      *\n");
 	printf("************************\n");
 
-	Word *dico = (Word *)calloc(1, sizeof(char));
+	Word *dico = (Word *)calloc(0, sizeof(char));
 	int ite = 0;
 
 	for (int i = 0; i < list->length; i++)
@@ -133,7 +185,7 @@ void Q_c(char str[], char search[], WordList *list)
 	while (pch != NULL)
 	{
 		unsigned long size = strlen(pch);
-		char temp[size - 1];
+		char *temp = (char *)calloc(strlen(pch + 1), sizeof(char));
 		strcpy(temp, pch);
 
 		for (int i = 0; i < ite; i++)
@@ -151,9 +203,14 @@ void Q_c(char str[], char search[], WordList *list)
 		strcat(result, temp);
 
 		pch = strtok(NULL, " ");
+
+		free(temp);
 	}
 
-	affichage(dico, ite);
+	printf("Affichage du dictionnaire des mots supprimés :\n");
+	display(dico, ite);
+
+	printf("Affichage de la phrase modifiée :\n");
 	printf("%s\n", result);
 
 	free(result);
@@ -165,7 +222,7 @@ void Q_c(char str[], char search[], WordList *list)
 void Q_d(WordList *list)
 {
 	printf("************************\n");
-	printf("*          Q_d         *\n");
+	printf("*      Question_d      *\n");
 	printf("************************\n");
 
 	for (int i = 0; i < list->length; i++)
@@ -179,13 +236,14 @@ void Q_d(WordList *list)
 		list->words[i].freq = freq;
 	}
 
-	affichageList(list);
+	printf("Affichage de la liste des mots avec leurs fréquences :\n");
+	displayList(list);
 }
 
 void Q_e(WordList *list)
 {
 	printf("************************\n");
-	printf("*          Q_e         *\n");
+	printf("*      Question_e      *\n");
 	printf("************************\n");
 
 	triBulle(list);
@@ -212,7 +270,7 @@ void remove_special_char_tolower(char str[])
 	}
 }
 
-void affichage(Word *words, int ite)
+void display(Word *words, int ite)
 {
 	for (int i = 0; i < ite; i++)
 	{
@@ -220,7 +278,7 @@ void affichage(Word *words, int ite)
 	}
 }
 
-void affichageList(WordList *list)
+void displayList(WordList *list)
 {
 	for (int i = 0; i < list->length; i++)
 	{
@@ -242,7 +300,7 @@ void triBulle(WordList *list)
 			}
 		}
 	}
-	affichageList(list);
+	displayList(list);
 }
 
 void freeWordList(WordList *list)

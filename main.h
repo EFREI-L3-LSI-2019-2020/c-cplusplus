@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 typedef struct 
 {
@@ -20,15 +21,20 @@ typedef struct
 	unsigned int wordLength; //avec
 } WordList;
 
+void readInput();
+void readFile();
+
+void process(char *);
+
 WordList *Q_a_b(char[]);
-void Q_c(char[], char[], WordList *);
+void Q_c(char[], WordList *);
 void Q_d(WordList *);
 void Q_e(WordList *);
 
 char *copystr(char[]);
 void remove_special_char_tolower(char[]);
-void affichage(Word[], int);
-void affichageList(WordList *);
+void display(Word[], int);
+void displayList(WordList *);
 void triBulle(WordList *);
 
 void freeWordList(WordList *);
