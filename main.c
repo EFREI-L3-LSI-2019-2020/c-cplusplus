@@ -8,8 +8,24 @@ int main()
 {
 	char *str = NULL;
 	size_t size = 0;
-	printf("Donnez un titre à votre message: ");
-	getline(&str, &size, stdin);
+	/*printf("Donnez un titre à votre message: ");
+	getline(&str, &size, stdin);*/
+
+	FILE *file = fopen("file.txt", "r");
+	
+	if(file == NULL)
+	{
+		printf("Error when reading the file \"file.txt\"");
+		return 0;
+	}
+
+	size_t read = getline(&str, &size, file);
+
+	if(read == -1)
+	{
+		printf("Error when reading the first line !\n");
+		return 0;
+	}
 
 	size_t ln = strlen(str) - 1;
 	if (*str && str[ln] == '\n')
