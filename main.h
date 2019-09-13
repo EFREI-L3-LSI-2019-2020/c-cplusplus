@@ -21,6 +21,9 @@ typedef struct
 	unsigned int wordLength; //avec
 } WordList;
 
+char *getFileInput(FILE *);
+char *getInput();
+
 void readInput();
 void readFile();
 

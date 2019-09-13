@@ -1,9 +1,5 @@
 #include "main.h"
 
-/* TODO
-	- Better secure entry
- */
-
 int main()
 {
 	bool select = true;
@@ -29,9 +25,16 @@ int main()
 					readFile();
 					select = false;
 					break;
-				default:
-					break;
+				default: break;
 			}
+		}
+
+		if(select)
+		{
+			char c;
+			do {
+				c = getchar();
+			} while (c != '\n' && c != EOF);
 		}
 	}
 
@@ -42,15 +45,14 @@ int main()
 
 void readInput()
 {
+	// fix EOF on windows
 	char c;
 	do {
         c = getchar();
-    } while (c != '\n' && c != EOF);
+    } while (c != '\n');
 
-	char *str = NULL;
-	size_t size = 0;
 	printf("\nEntrez votre message : ");
-	getline(&str, &size, stdin);
+	char *str = getInput();
 
 	process(str);
 
@@ -59,9 +61,6 @@ void readInput()
 
 void readFile()
 {
-	char *str = NULL;
-	size_t size = 0;
-
 	FILE *file = fopen("file.txt", "r");
 	
 	if(file == NULL)
@@ -70,10 +69,9 @@ void readFile()
 		return;
 	}
 
-	while(getline(&str, &size, file) != -1)
-	{
-		process(str);
-	}
+	char *str;
+
+	while((str = getFileInput(file)) != NULL) process(str);
 
 	free(file);
 	free(str);
@@ -247,6 +245,50 @@ void Q_e(WordList *list)
 	printf("************************\n");
 
 	triBulle(list);
+}
+
+char *getFileInput(FILE *file)
+{
+	int c;
+	size_t bufferSize = 16;
+	size_t allocated = bufferSize;
+	char *str = (char *)calloc(allocated, sizeof(char));
+	unsigned int size = 0;
+
+	while((c = getc(file)) != '\n' && c != EOF && c != 13)
+	{
+		if(size + 2 <= bufferSize)
+		{
+			allocated += bufferSize;
+			char *newStr = (char *)realloc(str, allocated);
+
+			if(!newStr)
+			{
+				free(str);
+				return NULL;
+			}
+
+			str = newStr;
+		}
+
+		str[size++] = c;
+	}
+
+	if(file != stdin)
+	{
+		c = getc(file);
+	}
+
+	if(c == EOF && size == 0) return NULL;
+
+	str[size] = 0;
+
+	return str;
+}
+
+char *getInput()
+{
+	return getFileInput(stdin);
 }
 
 char *copystr(char str[])
