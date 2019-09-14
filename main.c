@@ -5,7 +5,7 @@ int main()
 	bool select = true;
 	unsigned int mode;
 
-	while(select)
+	while(select) //selection du menu
 	{
 		printf("Selectionnez un mode : \n");
 		printf("1) Lire entrée clavier\n");
@@ -94,6 +94,7 @@ void process(char *str)
 
 WordList *Q_a_b(char str[])
 {
+	/* str to Wordlist structure */
 	printf("************************\n");
 	printf("*     Question_a_b     *\n");
 	printf("************************\n");
@@ -188,11 +189,11 @@ void Q_c(char str[], WordList *list)
 
 		for (int i = 0; i < ite; i++)
 		{
-			if (strcmp(pch, dico[i].str) == 0)
+			if (strcmp(pch, dico[i].str) == 0) //if the word is not unique
 			{
-				for (int j = 0; j < size; j++)
+				for (int j = 0; j < size; j++) //remplace him by '#' (number of # depend off word lengh)
 				{
-					temp[j] = '#';
+					temp[j] = '#'; 
 				}
 			}
 		}
@@ -219,19 +220,20 @@ void Q_c(char str[], WordList *list)
 
 void Q_d(WordList *list)
 {
+	// Words frequency 
 	printf("************************\n");
 	printf("*      Question_d      *\n");
 	printf("************************\n");
 
 	for (int i = 0; i < list->length; i++)
 	{
-		list->wordLength += list->words[i].count;
+		list->wordLength += list->words[i].count; //Number words in a sentence 
 	}
 
 	for (int i = 0; i < list->length; i++)
 	{
-		double freq = (double)list->words[i].count / (double)list->wordLength;
-		list->words[i].freq = freq;
+		double freq = (double)list->words[i].count / (double)list->wordLength; //Calculation of frenquency
+		list->words[i].freq = freq; //affectation of the frequency in the word's structure
 	}
 
 	printf("Affichage de la liste des mots avec leurs fréquences :\n");
@@ -303,9 +305,9 @@ void remove_special_char_tolower(char str[])
 	//Dire quelle est secure
 	for (int i = 0; str[i]; i++)
 	{
-		if ((str[i] >= 'A' && str[i] <= 'Z'))
-			str[i] = str[i] + 32;
-		else if (str[i] == '.' || str[i] == '!' || str[i] == '?' || str[i] == '-' || str[i] == ',')
+		if ((str[i] >= 'A' && str[i] <= 'Z')) //if the ascii code is between 'A' and 'Z'
+			str[i] = str[i] + 32; //add 32(the difference between upper and lower case in the ascii table)
+		else if (str[i] == '.' || str[i] == '!' || str[i] == '?' || str[i] == '-' || str[i] == ',') //Remove special char
 		{
 			str[i] = ' ';
 		}
