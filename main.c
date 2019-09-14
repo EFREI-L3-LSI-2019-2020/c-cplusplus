@@ -79,8 +79,8 @@ void readFile()
 
 void process(char *str)
 {
-	size_t ln = strlen(str) - 1;
-	if (*str && str[ln] == '\n')
+	size_t ln = strlen(str) - 1; //Remove last char(entrer) when user input
+	if (*str && str[ln] == '\n') 
 		str[ln] = '\0';
 
 	remove_special_char_tolower(str);
