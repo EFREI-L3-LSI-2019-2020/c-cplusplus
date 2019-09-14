@@ -71,10 +71,13 @@ void readFile()
 
 	char *str;
 
-	while((str = getFileInput(file)) != NULL) process(str);
+	while((str = getFileInput(file)) != NULL) 
+	{
+		process(str);
+		free(str);
+	}
 
 	free(file);
-	free(str);
 }
 
 void process(char *str)
