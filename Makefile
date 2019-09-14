@@ -15,7 +15,6 @@ all:
 	@gcc -o PROJET .o/main.o
 	@rm -r .o
 	@echo 'Compilation terminée !'
-	@echo 'Jean-Michel REMEUR & Thomas LACAZE'
 	@./PROJET
 
 clean:
@@ -39,7 +38,6 @@ windows:
 	@gcc -o PROJET .o/main.o
 	@rm -r .o
 	@echo 'Compilation terminée !'
-	@echo 'Jean-Michel REMEUR & Thomas LACAZE'
 	@./PROJET.exe
 
 mac: 
@@ -59,5 +57,4 @@ mac:
 	@gcc-9 -o PROJET .o/main.o
 	@rm -r .o
 	@echo 'Compilation terminée !'
-	@echo 'Jean-Michel REMEUR & Thomas LACAZE'
 	@./PROJET
