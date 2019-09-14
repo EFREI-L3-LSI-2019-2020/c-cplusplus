@@ -4,7 +4,7 @@ Jean-Michel REMEUR & Thomas LACAZE
 Toutes les questions ont été traitées. 
 Aucun bug n'est à signaler.
 
-Les fuites de mémoires ont été vérifiées via Valgrind, qui nous informe aucune fuite de mémoire n'est présente.
+Les fuites de mémoires ont été vérifiées via Valgrind, qui nous informe qu'aucune fuite de mémoire n'est présente.
 
 Usage: 
 
