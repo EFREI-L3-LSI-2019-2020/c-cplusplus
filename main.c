@@ -108,17 +108,18 @@ WordList *Q_a_b(char str[])
 
 	while (pch != NULL)
 	{
-		int present = 1;
+		bool new = true;
 		for (int i = 0; i < ite; i++)
 		{
 			if (strcmp(words[i].str, pch) == 0)
 			{
+				// increment word counter
 				words[i].count++;
-				present = 0;
+				new = false;
 			}
 		}
 
-		if (present)
+		if (new) // add a new word in the list
 		{
 			char *word = (char *)calloc(strlen(pch), sizeof(char));
 			strcpy(word, pch);
@@ -155,27 +156,27 @@ void Q_c(char str[], WordList *list)
 
 	for (int i = 0; i < list->length; i++)
 	{
-		int new = 0;
+		bool new = false;
 		if (list->words[i].count > 1)
 		{
 			for (int j = 0; j < ite; j++)
 			{
 				if (strcmp(dico[j].str, list->words[i].str) == 0)
 				{
-					new = 1;
+					new = true;
 				}
 			}
 
-			if (new == 0)
+			if (new == 0) // add a new word in the list
 			{
 				dico = (Word *)realloc(dico, (ite + 1) * sizeof(Word));
 
-				Word present = list->words[i];
-				char *string = (char *)calloc(strlen(present.str), sizeof(char));
-				strcpy(string, present.str);
-				present.str = string;
+				Word word = list->words[i];
+				char *string = (char *)calloc(strlen(word.str), sizeof(char));
+				strcpy(string, word.str);
+				word.str = string;
 
-				dico[ite] = present;
+				dico[ite] = word;
 				ite++;
 			}
 		}
@@ -309,15 +310,12 @@ char *copystr(char str[])
 
 void remove_special_char_tolower(char str[])
 {
-	//Dire quelle est secure
 	for (int i = 0; str[i]; i++)
 	{
-		if ((str[i] >= 'A' && str[i] <= 'Z')) //if the ascii code is between 'A' and 'Z'
-			str[i] = str[i] + 32; //add 32(the difference between upper and lower case in the ascii table)
-		else if (str[i] == '.' || str[i] == '!' || str[i] == '?' || str[i] == '-' || str[i] == ',') //Remove special char
-		{
+		if ((str[i] >= 'A' && str[i] <= 'Z')) // if the ascii code is between 'A' and 'Z'
+			str[i] = str[i] + 32; // add 32(the difference between upper and lower case in the ascii table)
+		else if (str[i] == '.' || str[i] == '!' || str[i] == '?' || str[i] == '-' || str[i] == ',') // Remove special char
 			str[i] = ' ';
-		}
 	}
 }
 
