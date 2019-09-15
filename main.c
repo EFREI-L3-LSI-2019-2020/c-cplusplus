@@ -78,7 +78,6 @@ void readFile()
 	}
 
 	fclose(file);
-	//free(file);
 }
 
 void process(char *str)
@@ -263,12 +262,12 @@ char *getFileInput(FILE *file)
 
 	while((c = getc(file)) != '\n' && c != EOF && c != 13)
 	{
-		if(size + 2 <= bufferSize)
+		if(size + 2 >= allocated)
 		{
 			allocated += bufferSize;
 			char *newStr = (char *)realloc(str, allocated);
 
-			if(!newStr)
+			if(newStr == NULL)
 			{
 				free(str);
 				return NULL;
@@ -285,7 +284,11 @@ char *getFileInput(FILE *file)
 		c = getc(file);
 	}
 
-	if(c == EOF && size == 0) return NULL;
+	if(c == EOF && size == 0)
+	{
+		free(str);
+		return NULL;
+	}
 
 	str[size] = 0;
 
