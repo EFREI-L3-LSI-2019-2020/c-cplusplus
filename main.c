@@ -77,12 +77,13 @@ void readFile()
 		free(str);
 	}
 
-	free(file);
+	fclose(file);
+	//free(file);
 }
 
 void process(char *str)
 {
-	size_t ln = strlen(str) - 1; //Remove last char(entrer) when user input
+	size_t ln = strlen(str) - 1; //Remove last char(entrer)
 	if (*str && str[ln] == '\n') 
 		str[ln] = '\0';
 
