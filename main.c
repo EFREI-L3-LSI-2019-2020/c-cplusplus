@@ -182,7 +182,7 @@ void Q_c(char str[], WordList *list)
 		}
 	}
 
-	char *result = (char *)calloc(0, sizeof(char));
+	char *result = (char *)calloc(1, sizeof(char));
 	char *pch = strtok(str, " ");
 
 	while (pch != NULL)
